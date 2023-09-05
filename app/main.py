@@ -1,12 +1,20 @@
+from datetime import date
+
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 
 app = FastAPI()
 
 
-@app.get('/')
-def get_hotels():
-    return 'One great hotel'
+@app.get('/hotels')
+def get_hotels(
+        location: str,
+        date_from: date,
+        date_to: date,
+        stars: int = Query(None, ge=1, le=5),
+        has_spa: bool = None
+):
+    return location, date_to, date_from, stars, has_spa
 
 
 if __name__ == "__main__":
