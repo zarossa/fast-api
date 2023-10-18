@@ -1,27 +1,58 @@
+# from dataclasses import dataclass
 from datetime import date
+from typing import Optional
 
 import uvicorn
-from fastapi import FastAPI, Query
-from pydantic import BaseModel
+from fastapi import FastAPI, Query, Depends
+from pydantic import BaseModel, field_validator
+from pydantic.dataclasses import dataclass
+from pydantic_core.core_schema import FieldValidationInfo
 
 app = FastAPI()
 
 
-@app.get('/hotels')
-def get_hotels(
-        location: str,
-        date_from: date,
-        date_to: date,
-        stars: int = Query(None, ge=1, le=5),
-        has_spa: bool = None
-):
-    return location, date_to, date_from, stars, has_spa
+class SHotel(BaseModel):
+    address: str
+    name: str
+    stars: int
+
+
+@dataclass
+class HotelSearchArgs:
+    location: str
+    date_from: date
+    date_to: date
+    stars: Optional[int] = Query(None, ge=1, le=5)
+    has_spa: Optional[bool] = None
+
+    @field_validator('date_to')
+    def check_dates(cls, date_to: date, info: FieldValidationInfo) -> date:
+        if 'date_from' in info.data and date_to < info.data['date_from']:
+            raise ValueError('Date from less than date to')
+        return date_to
 
 
 class SBooking(BaseModel):
     room_id: int
     date_from: date
     date_to: date
+
+    @field_validator('date_to')
+    def check_dates(cls, date_to: date, info: FieldValidationInfo) -> date:
+        if 'date_from' in info.data and date_to < info.data['date_from']:
+            raise ValueError('Date from less than date to')
+        return date_to
+
+
+@app.get('/hotels')
+def get_hotels(
+    search_args: HotelSearchArgs = Depends()
+) -> list[SHotel]:
+    hotel2 = SHotel(address='qw', name='12', stars=1)
+    hotels = [hotel2,
+              hotel2]
+    print(search_args.stars)
+    return hotels
 
 
 @app.post('/booking')
