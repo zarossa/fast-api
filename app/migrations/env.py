@@ -8,8 +8,8 @@ from alembic import context
 from app.config import settings
 from app.database import Base
 from app.hotels.models import Hotel
+from app.hotels.rooms.models import Room
 from app.bookings.models import Booking
-from app.rooms.models import Room
 from app.customers.models import Customer
 
 # this is the Alembic Config object, which provides
