@@ -8,7 +8,11 @@ from pydantic import BaseModel, field_validator
 from pydantic.dataclasses import dataclass
 from pydantic_core.core_schema import FieldValidationInfo
 
+from app.bookings.router import router as router_bookings
+
 app = FastAPI()
+
+app.include_router(router_bookings)
 
 
 class SHotel(BaseModel):
