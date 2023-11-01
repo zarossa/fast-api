@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, JSON
+from typing import Optional
+
+from sqlalchemy import ForeignKey, JSON
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
 
@@ -6,11 +9,11 @@ from app.database import Base
 class Room(Base):
     __tablename__ = "room"
 
-    id = Column(Integer, primary_key=True)
-    hotel_id = Column(ForeignKey("hotel.id"))
-    name = Column(String, nullable=False)
-    description = Column(String, nullable=True)
-    price = Column(Integer, nullable=False)
-    services = Column(JSON, nullable=False)
-    quantity = Column(Integer, nullable=False)
-    image_id = Column(Integer, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    hotel_id: Mapped[int] = mapped_column(ForeignKey("hotel.id"))
+    name: Mapped[str]
+    description: Mapped[Optional[str]]
+    price: Mapped[int]
+    services: Mapped[list[str]] = mapped_column(JSON)
+    quantity: Mapped[int]
+    image_id: Mapped[int]
