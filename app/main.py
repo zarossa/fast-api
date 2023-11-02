@@ -9,9 +9,11 @@ from pydantic.dataclasses import dataclass
 from pydantic_core.core_schema import FieldValidationInfo
 
 from app.bookings.router import router as router_bookings
+from app.users.router import router as router_users
 
 app = FastAPI()
 
+app.include_router(router_users)
 app.include_router(router_bookings)
 
 
