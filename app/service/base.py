@@ -28,6 +28,6 @@ class BaseService(Generic[T]):
     @classmethod
     async def add(cls, **data):
         async with async_session_maker() as session:
-            query = insert(cls.model.__table__.columns).values(**data)
+            query = insert(cls.model).values(**data)
             await session.execute(query)
             await session.commit()
