@@ -10,7 +10,7 @@ from app.database import Base
 from app.hotels.models import Hotel
 from app.hotels.rooms.models import Room
 from app.bookings.models import Booking
-from app.customers.models import Customer
+from app.users.models import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

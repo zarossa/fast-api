@@ -11,7 +11,7 @@ class Booking(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     room_id: Mapped[int] = mapped_column(ForeignKey("room.id"))
-    customer_id: Mapped[int] = mapped_column(ForeignKey("customer.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user_account.id"))
     date_from: Mapped[date] = mapped_column(Date)
     date_to: Mapped[date] = mapped_column(Date)
     price: Mapped[int]
