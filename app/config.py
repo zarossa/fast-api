@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
 
+    JWT_KEY: str
+    JWT_ALGO: str
+
     @property
     def database_url(self) -> PostgresDsn:
         return PostgresDsn.build(
