@@ -12,15 +12,15 @@ class BaseService(Generic[T]):
     model: T = None
 
     @classmethod
-    async def find_one_or_none(cls, *filter_by):
+    async def find_one_or_none(cls, **filter_by):
         async with async_session_maker() as session:
-            query = select(cls.model.__table__.columns).filter(*filter_by)
+            query = select(cls.model.__table__.columns).filter_by(**filter_by)
             results = await session.execute(query)
             return results.mappings().one_or_none()
 
     @classmethod
-    async def find_all(cls, *filter_by):
+    async def find_all(cls, **filter_by):
         async with async_session_maker() as session:
-            query = select(cls.model.__table__.columns).filter(*filter_by)
+            query = select(cls.model.__table__.columns).filter_by(**filter_by)
             results = await session.execute(query)
             return results.mappings().all()
