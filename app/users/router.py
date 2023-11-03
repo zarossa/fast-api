@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Response, Depends
 
 from app.users.auth import get_password_hash, auth_user, create_access_token
-from app.users.dependencies import get_current_user
+from app.users.dependencies import get_current_user, get_current_admin_user
 from app.users.schemas import SUserAuth, SUser
 from app.users.services import UserService
 
@@ -38,3 +38,8 @@ async def logout_user(response: Response):
 @router.get("/me")
 async def read_user_me(current_user: SUser = Depends(get_current_user)) -> SUser:
     return current_user
+
+
+@router.get("/all")
+async def read_user_all(current_user: SUser = Depends(get_current_admin_user)) -> list[SUser]:
+    return await UserService.find_all()
