@@ -16,9 +16,6 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
 
-    JWT_KEY: str
-    JWT_ALGO: str
-
     @property
     def database_url(self) -> PostgresDsn:
         return PostgresDsn.build(
@@ -29,6 +26,9 @@ class Settings(BaseSettings):
             port=self.DB_PORT,
             path=self.DB_NAME
         )
+
+    JWT_KEY: str
+    JWT_ALGO: str
 
     model_config = SettingsConfigDict(env_file=Path(BASE_DIR, ".env"))
 
